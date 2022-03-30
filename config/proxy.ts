@@ -6,6 +6,12 @@
  * For details, please see
  * https://pro.ant.design/docs/deploy
  */
+
+let DEV_CK_TRANS_SERVER = 'http://localhost:8000';
+if (process.env.CK_TRANS_SERVER) {
+  DEV_CK_TRANS_SERVER = process.env.CK_TRANS_SERVER;
+}
+
 export default {
   dev: {
     // localhost:8000/api/** -> https://preview.pro.ant.design/api/**
@@ -15,6 +21,9 @@ export default {
       // 配置了这个可以从 http 代理到 https
       // 依赖 origin 的功能可能需要这个，比如 cookie
       changeOrigin: true,
+    },
+    '/clickhouse/sql': {
+      target: DEV_CK_TRANS_SERVER,
     },
   },
   test: {

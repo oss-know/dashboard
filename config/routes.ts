@@ -25,6 +25,12 @@
     component: './Welcome',
   },
   {
+    path: '/low_code_viz',
+    name: 'Low Code Viz',
+    icon: 'smile',
+    component: './LowCodeViz',
+  },
+  {
     path: '/admin',
     name: 'admin',
     icon: 'crown',
