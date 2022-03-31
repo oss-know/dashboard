@@ -6,13 +6,23 @@ import { getActivities, getAllOwners, getRepos } from '@/services/clickhouse';
 import ProForm, { ProFormSelect } from '@ant-design/pro-form';
 import { Col, Row } from 'antd';
 
+type RowBase = {
+  key: number;
+};
+
+type ActivityRow = RowBase & CKData.Activity;
+
 export default class LowCodeViz extends React.Component<any, any> {
   columns: ProColumns[] = [
     { title: 'Owner', dataIndex: 'owner', hideInTable: true },
     { title: 'Repo', dataIndex: 'repo', hideInTable: true },
     { title: 'GithubId', dataIndex: 'githubId', hideInTable: true },
     { title: 'GithubLogin', dataIndex: 'githubLogin' },
-    { title: 'KnowledgeSharing', dataIndex: 'knowledgeSharing' },
+    {
+      title: 'KnowledgeSharing',
+      dataIndex: 'knowledgeSharing',
+      sorter: (a: ActivityRow, b: ActivityRow) => a.knowledgeSharing - b.knowledgeSharing,
+    },
     { title: 'CodeContribution', dataIndex: 'codeContribution' },
     { title: 'IssueCoordination', dataIndex: 'issueCoordination' },
     { title: 'ProgressControl', dataIndex: 'progressControl' },
@@ -32,12 +42,8 @@ export default class LowCodeViz extends React.Component<any, any> {
       tableData: [],
     };
 
-    getAllOwners().then((data) => {
-      const allOwners = [];
-      data.forEach((item) => {
-        allOwners.push({ value: item[0], label: item[0] });
-      });
-      this.setState({ allOwners: allOwners });
+    getAllOwners().then((owners) => {
+      this.setState({ allOwners: owners.map((owner) => ({ value: owner, label: owner })) });
     });
 
     this.fetchRepos = this.fetchRepos.bind(this);
@@ -46,43 +52,26 @@ export default class LowCodeViz extends React.Component<any, any> {
     this.handleRowClick = this.handleRowClick.bind(this);
   }
 
-  fetchRepos(owner) {
-    getRepos(owner).then((data) => {
-      const repos = [];
-      data.forEach((item) => {
-        repos.push({
-          label: item[0],
-          value: item[0],
-        });
+  fetchRepos(owner: string) {
+    getRepos(owner).then((allRepos) => {
+      const repoOptions = allRepos.map((repo) => ({ label: repo, value: repo }));
+      this.setState({ repos: repoOptions });
+    });
+  }
+
+  fetchActivities(owner: string, repo: string) {
+    getActivities(owner, repo).then((activities) => {
+      const tableData: ActivityRow[] = [];
+      activities.forEach((activity, i) => {
+        const row: ActivityRow = { ...activity, key: i };
+        tableData.push(row);
       });
-      this.setState({ repos: repos });
+
+      this.setState({ tableData });
     });
   }
 
-  fetchActivities(owner, repo) {
-    getActivities(owner, repo).then((data) => {
-      const tableData = [];
-      for (let i = 0; i < data.length; ++i) {
-        const item = data[i];
-        tableData.push({
-          key: '' + i,
-          owner: item[0],
-          repo: item[1],
-          githubId: item[2],
-          githubLogin: item[3],
-          knowledgeSharing: item[4].toFixed(2),
-          codeContribution: item[5].toFixed(2),
-          issueCoordination: item[6].toFixed(2),
-          progressControl: item[7].toFixed(2),
-          codeTweaking: item[8].toFixed(2),
-          issueReporting: item[9].toFixed(2),
-        });
-      }
-      this.setState({ tableData: tableData });
-    });
-  }
-
-  handleRowClick(row) {
+  handleRowClick(row: ActivityRow) {
     this.setState({
       githubLogin: row.githubLogin,
     });
@@ -124,7 +113,7 @@ export default class LowCodeViz extends React.Component<any, any> {
           columns={this.columns}
           dataSource={this.state.tableData}
           search={false}
-          onRow={(row) => {
+          onRow={(row: ActivityRow) => {
             return {
               onClick: () => {
                 this.handleRowClick(row);
