@@ -25,10 +25,10 @@
     component: './Welcome',
   },
   {
-    path: '/low_code_viz',
-    name: 'Low Code Viz',
+    path: '/backup_low_code_viz',
+    name: 'Backup Low Code Viz(activity)',
     icon: 'smile',
-    component: './LowCodeViz',
+    component: './DeveloperActivities',
   },
   {
     path: '/admin',

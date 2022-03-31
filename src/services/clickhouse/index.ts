@@ -9,11 +9,7 @@ export async function getAllOwners() {
     },
   });
   // We have to do some parsing here, since the server just returns raw query result
-  const allOwners: string[] = [];
-  result.forEach((item: string[]) => {
-    allOwners.push(item[0]);
-  });
-  return allOwners;
+  return result.map((item) => item[0]);
 }
 
 export async function getRepos(owner: string): Promise<string[]> {
