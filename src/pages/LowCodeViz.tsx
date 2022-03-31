@@ -18,7 +18,11 @@ export default class LowCodeViz extends React.Component<any, any> {
     { title: 'Repo', dataIndex: 'repo', hideInTable: true },
     { title: 'GithubId', dataIndex: 'githubId', hideInTable: true },
     { title: 'GithubLogin', dataIndex: 'githubLogin' },
-    { title: 'KnowledgeSharing', dataIndex: 'knowledgeSharing' },
+    {
+      title: 'KnowledgeSharing',
+      dataIndex: 'knowledgeSharing',
+      sorter: (a: ActivityRow, b: ActivityRow) => a.knowledgeSharing - b.knowledgeSharing,
+    },
     { title: 'CodeContribution', dataIndex: 'codeContribution' },
     { title: 'IssueCoordination', dataIndex: 'issueCoordination' },
     { title: 'ProgressControl', dataIndex: 'progressControl' },
@@ -59,20 +63,7 @@ export default class LowCodeViz extends React.Component<any, any> {
     getActivities(owner, repo).then((activities) => {
       const tableData: ActivityRow[] = [];
       activities.forEach((activity, i) => {
-        // TODO I guess there must be better ways to assign ActivityRow instance here:
-        const row: ActivityRow = {
-          key: i,
-          owner: activity.owner,
-          repo: activity.repo,
-          githubId: activity.githubId,
-          githubLogin: activity.githubLogin,
-          knowledgeSharing: activity.knowledgeSharing,
-          codeContribution: activity.codeContribution,
-          issueCoordination: activity.issueCoordination,
-          progressControl: activity.progressControl,
-          codeTweaking: activity.codeTweaking,
-          issueReporting: activity.issueReporting,
-        };
+        const row: ActivityRow = { ...activity, key: i };
         tableData.push(row);
       });
 

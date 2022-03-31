@@ -41,12 +41,12 @@ export async function getActivities(owner: string, repo: string): Promise<CKData
       repo: act[1],
       githubId: act[2],
       githubLogin: act[3],
-      knowledgeSharing: act[4].toFixed(2),
-      codeContribution: act[5].toFixed(2),
-      issueCoordination: act[6].toFixed(2),
-      progressControl: act[7].toFixed(2),
-      codeTweaking: act[8].toFixed(2),
-      issueReporting: act[9].toFixed(2),
+      knowledgeSharing: parseFloat(act[4].toFixed(2)),
+      codeContribution: parseFloat(act[5].toFixed(2)),
+      issueCoordination: parseFloat(act[6].toFixed(2)),
+      progressControl: parseFloat(act[7].toFixed(2)),
+      codeTweaking: parseFloat(act[8].toFixed(2)),
+      issueReporting: parseFloat(act[9].toFixed(2)),
     };
     return activity;
   });
