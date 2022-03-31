@@ -25,9 +25,15 @@
     component: './Welcome',
   },
   {
+    path: '/low_code_platform',
+    name: 'Low Code Platform',
+    icon: 'rocket',
+    component: './LowCodeViz',
+  },
+  {
     path: '/backup_low_code_viz',
-    name: 'Backup Low Code Viz(activity)',
-    icon: 'smile',
+    name: '[removing]Low Code Viz(activity)',
+    icon: 'warning',
     component: './DeveloperActivities',
   },
   {

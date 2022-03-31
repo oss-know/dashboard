@@ -4,8 +4,11 @@ import type { ProColumns } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
 import { getActivities, getAllOwners, getRepos } from '@/services/clickhouse';
 import ProForm, { ProFormSelect } from '@ant-design/pro-form';
+import { ChoroplethMap } from '@ant-design/maps';
 import { Col, Row } from 'antd';
+import { Collapse } from 'antd';
 
+const { Panel } = Collapse;
 type RowBase = {
   key: number;
 };
@@ -92,35 +95,35 @@ export default class LowCodeViz extends React.Component<any, any> {
   render() {
     return (
       <PageContainer>
-        <ProForm onValuesChange={this.onFormValueChange} submitter={false}>
-          {/*<Divider orientation="left">Horizontal</Divider>*/}
-          <Row gutter={16}>
-            <Col className="gutter-row" span={6}>
-              <ProForm.Item>
-                <ProFormSelect name="owner" options={this.state.allOwners} />
-              </ProForm.Item>
-            </Col>
+        <Row>
+          <Col span={24}>
+            <Collapse>
+              <Panel header="SQL Editor" key="1">
+                SQL Editor Here
+              </Panel>
+            </Collapse>
+          </Col>
+        </Row>
+        <Row>
+          <Col span={24}>
+            <ProTable
+              columns={this.columns}
+              dataSource={this.state.tableData}
+              search={false}
+              onRow={(row: ActivityRow) => {
+                return {
+                  onClick: () => {
+                    this.handleRowClick(row);
+                  },
+                };
+              }}
+            />
+          </Col>
+        </Row>
 
-            <Col className="gutter-row" span={6}>
-              <ProForm.Item>
-                <ProFormSelect name="repo" options={this.state.repos} />
-              </ProForm.Item>
-            </Col>
-          </Row>
-        </ProForm>
-
-        <ProTable
-          columns={this.columns}
-          dataSource={this.state.tableData}
-          search={false}
-          onRow={(row: ActivityRow) => {
-            return {
-              onClick: () => {
-                this.handleRowClick(row);
-              },
-            };
-          }}
-        />
+        <Row>
+          <Col span={24}>Charts here</Col>
+        </Row>
       </PageContainer>
     );
   }
