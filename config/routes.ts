@@ -28,7 +28,7 @@
     path: '/low_code_platform',
     name: 'Low Code Platform',
     icon: 'rocket',
-    component: './LowCodeViz',
+    component: './LowCodePlatform',
   },
   {
     path: '/backup_low_code_viz',
