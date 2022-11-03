@@ -15,4 +15,5 @@ export default {
   'repositoriesManager.repoAlreadyDownloaded': 'already downloaded',
   'repositoriesManager.invalidGitUrl': 'invalid Git repo URL',
   'repositoriesManager.failedToAddRepo': 'Failed to add repository',
+  'repositoriesManager.clickToRetry': 'Click to Retry',
 };

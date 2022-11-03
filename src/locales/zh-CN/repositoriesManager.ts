@@ -15,4 +15,5 @@ export default {
   'repositoriesManager.repoAlreadyDownloaded': '代码库已下载',
   'repositoriesManager.invalidGitUrl': '无效的Git库URL',
   'repositoriesManager.failedToAddRepo': '代码库添加失败',
+  'repositoriesManager.clickToRetry': '点击继续下载',
 };

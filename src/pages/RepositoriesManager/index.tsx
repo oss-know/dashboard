@@ -1,5 +1,16 @@
 import React from 'react';
-import { AutoComplete, Button, Card, Col, Divider, Row, Statistic, notification } from 'antd';
+import {
+  AutoComplete,
+  Button,
+  Card,
+  Col,
+  Divider,
+  Row,
+  Statistic,
+  notification,
+  Progress,
+  Popover,
+} from 'antd';
 import {
   allProjectsSQL,
   commitCountSql,
@@ -22,6 +33,7 @@ const REPO_DOWNLOADED = 2;
 
 export default class RepositoriesManager extends React.Component<any, any> {
   repoFound: boolean = false;
+  fetchReposInterval = null;
 
   constructor(props) {
     super(props);
@@ -82,7 +94,13 @@ export default class RepositoriesManager extends React.Component<any, any> {
       });
 
     this.syncDownloadingRepos();
-    setInterval(this.syncDownloadingRepos, 5000);
+    this.fetchReposInterval = setInterval(this.syncDownloadingRepos, 5000);
+  }
+
+  componentWillUnmount() {
+    if (this.fetchReposInterval) {
+      clearInterval(this.fetchReposInterval);
+    }
   }
 
   onSearchInputChange(inputValue) {
@@ -103,8 +121,8 @@ export default class RepositoriesManager extends React.Component<any, any> {
     this.setState({ repoFound, searchInput: inputValue });
   }
 
-  onAddRepo() {
-    const repoUrl = this.state.searchInput;
+  onAddRepo(event, retryUrl) {
+    const repoUrl = retryUrl ? retryUrl : this.state.searchInput;
     addRepository(repoUrl)
       .then((result) => {
         this.setState({ searchInput: '' });
@@ -142,6 +160,7 @@ export default class RepositoriesManager extends React.Component<any, any> {
           default:
             description = `${description}: ${e}`;
         }
+
         notification.error({
           message: failedToAddRepoStr,
           description,
@@ -159,6 +178,7 @@ export default class RepositoriesManager extends React.Component<any, any> {
         console.log(e);
       });
   }
+
   render() {
     return (
       <PageContainer>
@@ -253,15 +273,86 @@ export default class RepositoriesManager extends React.Component<any, any> {
 
         <Divider>{intl.formatMessage({ id: 'repositoriesManager.repositories' })}</Divider>
         <Row gutter={[10, 10]}>
-          {this.state.downloadingRepos.map((repoInfo, index) => {
-            const { owner, repo, url: repoUrl } = repoInfo;
+          {this.state.downloadingRepos.map((repoInfo) => {
+            const {
+              owner,
+              repo,
+              url: repoUrl,
+              job_status: jobStatus,
+              gits_status: gitsStatus,
+              github_commits_status: ghCommitsStatus,
+              github_issues_status: ghIssuesStatus,
+              github_issues_comments_status: ghIssuesCommentsStatus,
+              github_issues_timeline_status: ghIssuesTimelinStatus,
+              github_pull_requests_status: ghPRStatus,
+              ck_transfer_status: ckTransferStatus,
+              ck_aggregation_status: ckAggregationStatus,
+            } = repoInfo;
+
+            const color = 'rgb(245,245,239)';
+            let progress = 100;
+            const essentialStatuses = [
+              gitsStatus,
+              ghCommitsStatus,
+              ghIssuesStatus,
+              ghIssuesCommentsStatus,
+              ghIssuesTimelinStatus,
+              ghPRStatus,
+              ckTransferStatus,
+              ckAggregationStatus,
+            ];
+            const progressInterval = progress / essentialStatuses.length;
+
+            essentialStatuses.forEach((status) => {
+              if (status != 2) {
+                progress -= progressInterval;
+              }
+            });
+            const progressStatus = jobStatus == 'failed' ? 'exception' : 'normal';
+
+            const progressCard = (
+              <Card
+                style={{ height: 90, background: color, borderColor: 'rgb(60,108,60)' }}
+                hoverable
+              >
+                <Row>
+                  <Col span={20}> {`${owner}/${repo}`}</Col>
+                  <Col span={4}>
+                    <Progress
+                      status={progressStatus}
+                      percent={parseInt(progress)}
+                      type={'circle'}
+                      width={40}
+                    ></Progress>
+                  </Col>
+                </Row>
+              </Card>
+            );
+
+            let ret = null;
+            if (jobStatus == 'failed') {
+              ret = (
+                <Popover content={intl.formatMessage({ id: 'repositoriesManager.clickToRetry' })}>
+                  <div
+                    onClick={(e) => {
+                      this.onAddRepo(e, repoUrl);
+                    }}
+                  >
+                    {progressCard}
+                  </div>
+                </Popover>
+              );
+            } else {
+              ret = (
+                <a href={repoUrl} target={'_blank'}>
+                  {progressCard}
+                </a>
+              );
+            }
+
             return (
               <Col key={`downloading__repo__col__${owner}___${repo}`} span={4}>
-                <a href={repoUrl} target={'_blank'}>
-                  <Card style={{ height: 90, background: 'rgba(105,248,212,0.8)' }} hoverable>
-                    {`${owner}/${repo}`}
-                  </Card>
-                </a>
+                {ret}
               </Col>
             );
           })}
