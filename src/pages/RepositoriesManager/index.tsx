@@ -24,7 +24,8 @@ import { PageContainer } from '@ant-design/pro-layout';
 import { getIntl, Link } from 'umi';
 import { addRepository, getRepositories } from '@/services/intelligengine';
 
-const IS_GIT_URL_REGEX = /(?:git|ssh|https?|git@[-\w.]+):(\/\/)?(.*?)(\.git)(\/?|\#[-\d\w._]+?)$/;
+const IS_GIT_URL_REGEX =
+  /(git@|http:\/\/|https:\/\/)[\w\.-:]+[\/:]{1}[~\w-]+\/{1}[~\w-]+(.git){0,1}$/;
 
 const intl = getIntl();
 
@@ -123,6 +124,20 @@ export default class RepositoriesManager extends React.Component<any, any> {
 
   onAddRepo(event, retryUrl) {
     const repoUrl = retryUrl ? retryUrl : this.state.searchInput;
+    const invalidGitUrlStr = intl.formatMessage({
+      id: 'repositoriesManager.invalidGitUrl',
+    });
+    const failedToAddRepoStr = intl.formatMessage({
+      id: 'repositoriesManager.failedToAddRepo',
+    });
+    if (!IS_GIT_URL_REGEX.test(repoUrl)) {
+      return notification.error({
+        message: failedToAddRepoStr,
+        description: invalidGitUrlStr,
+        placement: 'top',
+      });
+    }
+
     addRepository(repoUrl)
       .then((result) => {
         this.setState({ searchInput: '' });
@@ -134,18 +149,13 @@ export default class RepositoriesManager extends React.Component<any, any> {
       })
       .catch((e) => {
         const failedToAddStr = intl.formatMessage({ id: 'repositoriesManager.failedToAdd' });
-        const failedToAddRepoStr = intl.formatMessage({
-          id: 'repositoriesManager.failedToAddRepo',
-        });
         const alreadyInDownloadListStr = intl.formatMessage({
           id: 'repositoriesManager.repoAlreadyInDownloadList',
         });
         const alreadyDownloadedStr = intl.formatMessage({
           id: 'repositoriesManager.repoAlreadyDownloaded',
         });
-        const invalidGitUrlStr = intl.formatMessage({
-          id: 'repositoriesManager.invalidGitUrl',
-        });
+
         let description = `${failedToAddStr} ${repoUrl}`;
         switch (e.response.status) {
           case 409:
