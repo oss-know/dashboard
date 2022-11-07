@@ -32,6 +32,23 @@ const intl = getIntl();
 const REPO_DOWNLOADING = 1;
 const REPO_DOWNLOADED = 2;
 
+const STATUS_SCORES = {
+  started: 3,
+  queued: 2,
+  failed: 1,
+};
+
+// TODO Well, there must be thousands of better ways than this nasty one:
+const repoJobCompare = (a, b) => {
+  let scoreA = STATUS_SCORES[a.job_status] * 10000;
+  let scoreB = STATUS_SCORES[b.job_status] * 10000;
+
+  scoreA -= a.owner.toLowerCase().charCodeAt(0) * 10 + a.repo.toLowerCase().charCodeAt(0);
+  scoreB -= b.owner.toLowerCase().charCodeAt(0) * 10 + b.repo.toLowerCase().charCodeAt(0);
+
+  return scoreB - scoreA;
+};
+
 export default class RepositoriesManager extends React.Component<any, any> {
   repoFound: boolean = false;
   fetchReposInterval = null;
@@ -182,7 +199,10 @@ export default class RepositoriesManager extends React.Component<any, any> {
   syncDownloadingRepos() {
     getRepositories()
       .then((result) => {
-        this.setState({ downloadingRepos: result, numDownloadingRepos: result.length });
+        this.setState({
+          downloadingRepos: result.sort(repoJobCompare),
+          numDownloadingRepos: result.length,
+        });
       })
       .catch((e) => {
         console.log(e);
@@ -335,7 +355,6 @@ export default class RepositoriesManager extends React.Component<any, any> {
                 </Col>
               );
             }
-
 
             const progressStatus = jobStatus == 'failed' ? 'exception' : 'normal';
 
