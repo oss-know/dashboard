@@ -318,6 +318,25 @@ export default class RepositoriesManager extends React.Component<any, any> {
                 progress -= progressInterval;
               }
             });
+
+            if (jobStatus === 'queued') {
+              return (
+                <Col key={`downloading__repo__col__${owner}___${repo}`} span={4}>
+                  <a href={repoUrl} target={'_blank'}>
+                    <Card
+                      style={{ height: 90, background: color, borderColor: 'rgb(60,108,60)' }}
+                      hoverable
+                    >
+                      <Row>
+                        <Col span={20}> {`${owner}/${repo} (queued)`}</Col>
+                      </Row>
+                    </Card>
+                  </a>
+                </Col>
+              );
+            }
+
+
             const progressStatus = jobStatus == 'failed' ? 'exception' : 'normal';
 
             const progressCard = (
