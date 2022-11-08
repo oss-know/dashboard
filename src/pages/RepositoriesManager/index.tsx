@@ -25,7 +25,7 @@ import { getIntl, Link } from 'umi';
 import { addRepository, getRepositories } from '@/services/intelligengine';
 
 const IS_GIT_URL_REGEX =
-  /(git@|http:\/\/|https:\/\/)[\w\.-:]+[\/:]{1}[~\w-]+\/{1}[~\w-]+(.git){0,1}$/;
+  /(git@|http:\/\/|https:\/\/)[.0-9a-zA-Z_-~:]+[\/:]{1}[0-9a-zA-Z_\-~]+\/{1}[0-9a-zA-Z_\-~.]+(.git){0,1}$/;
 
 const intl = getIntl();
 
