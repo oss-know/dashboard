@@ -31,6 +31,7 @@ const intl = getIntl();
 
 const REPO_DOWNLOADING = 1;
 const REPO_DOWNLOADED = 2;
+const MAX_DOWNLOADS_TO_SHOW = 100;
 
 const STATUS_SCORES = {
   started: 3,
@@ -303,7 +304,7 @@ export default class RepositoriesManager extends React.Component<any, any> {
 
         <Divider>{intl.formatMessage({ id: 'repositoriesManager.repositories' })}</Divider>
         <Row gutter={[10, 10]}>
-          {this.state.downloadingRepos.map((repoInfo) => {
+          {this.state.downloadingRepos.slice(0, MAX_DOWNLOADS_TO_SHOW).map((repoInfo) => {
             const {
               owner,
               repo,
