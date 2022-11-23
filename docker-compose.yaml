@@ -2,9 +2,9 @@ version: '0.1'
 
 services:
   dashboard:
-    container_name: dashboard
+    container_name: ossknow_dashboard
     hostname: dashboard
-    image: dashboard:test
+    image: ossknow/dashboard:latest
     restart: always
     # 跨多个Docker-compose配置文件，services在一个网桥
     networks:
@@ -21,4 +21,5 @@ services:
 
 networks:
   dev-network:
+    driver: overlay
     external: true
