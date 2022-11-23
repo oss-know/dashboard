@@ -1,5 +1,14 @@
 #!/bin/bash
-npm run build
-docker build -t dashboard:test ./
-docker-compose -f docker-compose.yaml down
-docker-compose -f docker-compose.yaml up -d
+TAG=$1
+ORG=$2
+
+if [ -z "$TAG" ]; then
+	TAG="latest"
+fi
+
+if [ -z "$ORG" ]; then
+	ORG="oss-know"
+fi
+
+
+docker build -t $ORG/dashboard:$TAG ./
