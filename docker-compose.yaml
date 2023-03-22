@@ -2,24 +2,20 @@ version: '0.1'
 
 services:
   dashboard:
-    container_name: ossknow_dashboard
+    container_name: dashboard
     hostname: dashboard
-    image: ossknow/dashboard:latest
+    image: oss-know/dashboard:latest
     restart: always
     # 跨多个Docker-compose配置文件，services在一个网桥
     networks:
       - dev-network
-    environment:
-      - CK_HOST=192.168.8.50
-      - CK_PORT=18000
-      - CK_USER=querydata
-      - CK_PASS=querydata
-      - PORT=8008
     ports:
       - "8081:8081"
 
 
 networks:
-  dev-network:
+  overlay-network:
     driver: overlay
+    external: true
+  dev-network:
     external: true
