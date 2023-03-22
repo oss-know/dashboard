@@ -11,9 +11,8 @@ if [ -z "$ORG" ]; then
 fi
 
 
-NODE_OPTIONS=--openssl-legacy-provider npm run build
+# NODE_OPTIONS=--openssl-legacy-provider
 docker build -t $ORG/dashboard:$TAG ./
-
 
 #docker compose -f docker-compose.yaml down
 #docker compose -f docker-compose.yaml up -d
