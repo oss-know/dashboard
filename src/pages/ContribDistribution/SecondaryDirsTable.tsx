@@ -50,7 +50,6 @@ REGION_MAP['中国'] = 'CHINA';
 
 function getTagTzDist(owner, repo, secondaryDir, type, key, since, until, callback) {
   let title = '';
-  let total = 0;
 
   switch (type) {
     case 'file_region_dist':
@@ -61,12 +60,10 @@ function getTagTzDist(owner, repo, secondaryDir, type, key, since, until, callba
           .map((item) => {
             const tz = item[0];
             const count = item[1];
-            total += count;
             const tzStr = tz > 0 ? `+${tz}` : `${tz}`;
             return `${tzStr}: ${count}`;
           })
           .join(', ');
-        // title += `, total: ${total}`;
         callback(title);
       });
       break;
@@ -77,13 +74,11 @@ function getTagTzDist(owner, repo, secondaryDir, type, key, since, until, callba
             .map((item) => {
               const tz = item[0];
               const count = item[1];
-              total += count;
 
               const tzStr = tz > 0 ? `+${tz}` : `${tz}`;
               return `${tzStr}: ${count}`;
             })
             .join(', ');
-          // title += `, total: ${total}`;
 
           callback(title);
         },
@@ -104,13 +99,11 @@ function getTagTzDist(owner, repo, secondaryDir, type, key, since, until, callba
           .map((item) => {
             const tz = item[0];
             const count = item[1];
-            total += count;
 
             const tzStr = tz > 0 ? `+${tz}` : `${tz}`;
             return `${tzStr}: ${count}`;
           })
           .join(', ');
-        // title += `, total: ${total}`;
 
         callback(title);
       });
@@ -123,12 +116,10 @@ function getTagTzDist(owner, repo, secondaryDir, type, key, since, until, callba
           .map((item) => {
             const tz = item[0];
             const count = item[1];
-            total += count;
             const tzStr = tz > 0 ? `+${tz}` : `${tz}`;
             return `${tzStr}: ${count}`;
           })
           .join(', ');
-        // title += `, total: ${total}`;
 
         callback(title);
       });
@@ -150,12 +141,13 @@ class TzDistTitle extends React.Component<any, any> {
       this.setState({ title });
     });
   }
+
   render() {
     return <div>{this.state.title}</div>;
   }
 }
 
-function secondaryDirTableCellRender(cellData, rowData, index) {
+function secondaryDirTableCellRender(cellData, rowData) {
   const { secondaryDir } = rowData;
   const tags = cellData.map((info, index) => {
     const { key, value, type, owner, repo, since, until } = info;

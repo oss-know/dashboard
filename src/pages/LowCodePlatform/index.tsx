@@ -9,14 +9,13 @@ import ActivityRadar from '@/pages/LowCodePlatform/ActivityRadar';
 import { message } from 'antd';
 
 const { Panel } = Collapse;
-import { parseActivities } from '@/pages/LowCodePlatform/ActivityRadar';
+// import { parseActivities } from '@/pages/LowCodePlatform/ActivityRadar';
 import { getIntl } from 'umi';
 
 const intl = getIntl();
 
 const DEFAULT_SQL =
   "SELECT * FROM activities_mapped WHERE owner='torvalds' AND repo='linux' ORDER BY code_contribution DESC LIMIT 100";
-// "SELECT * FROM activities WHERE owner='kubernetes' AND repo='kubernetes' ORDER BY code_contribution DESC LIMIT 2";
 
 export default class Index extends React.Component<any, any> {
   constructor(props: any) {
@@ -52,7 +51,7 @@ export default class Index extends React.Component<any, any> {
         // }
         this.setState({ ...tableResult });
       })
-      .catch((e) => {
+      .catch(() => {
         // TODO If there is more code logics after fetching sql, then the error might not be caused by running sql
         message.error('Failed to execute SQL');
       });

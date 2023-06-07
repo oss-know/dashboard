@@ -62,43 +62,24 @@ export default class DirDeveloperContribTable extends React.Component<any, any> 
               })}
             </span>
             <Table
-              rowClassName={(record, index) => {
-                // console.log(record);
+              rowClassName={(record) => {
                 return record.clicked ? styles.clickedTableRow : styles.normalTableRow;
               }}
               columns={DEVELOPER_CONTRIB_IN_SECONDARY_DIR_COLS}
               dataSource={this.props.developerContribInSecondaryDirData}
               onRow={(row) => {
                 return {
-                  onClick: (e) => {
-                    // let tr = e.target.parentNode;
-                    // console.log(tr == prevClickedRowRef);
-                    // if (prevClickedRowRef && prevClickedRowRef != tr) {
-                    //   prevClickedRowRef.style.backgroundColor = '';
-                    // }
-                    //
-                    // tr.style.backgroundColor = 'rgb(115,201,236)';
-                    // prevClickedRowRef = tr;
+                  onClick: () => {
                     row.clicked = true;
-
                     if (prevClickedRow && prevClickedRow != row) {
                       prevClickedRow.clicked = false;
                     }
 
                     prevClickedRow = row;
-
                     if (this.props.onDeveloperRowClicked) {
                       this.props.onDeveloperRowClicked(row);
                     }
                   },
-                  // onMouseEnter: (e) => {
-                  //   console.log('hover!');
-                  //   let tr = e.target.parentNode;
-                  //   console.log(tr.style, tr.style.backgroundColor);
-                  //   if (tr == prevClickedRowRef) {
-                  //     tr.style.backgroundColor = 'rgb(115,201,236)';
-                  //   }
-                  // },
                 };
               }}
             />

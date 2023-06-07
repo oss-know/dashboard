@@ -5,6 +5,31 @@ import { Radar } from '@ant-design/plots';
 
 const intl = getIntl();
 
+class ActivityRadar extends React.Component<any, any> {
+  render() {
+    return (
+      <Radar
+        animation={false}
+        data={this.props.radarData || []}
+        height={this.props.height || 225}
+        xField={'name'}
+        yField={'value'}
+        yAxis={{ max: 100, min: 0 }}
+      />
+    );
+  }
+}
+
+const GHPROFILE_COMPANY = intl.formatMessage({
+  id: 'contribDist.developerInfoTable.githubProfile.company',
+});
+const GHPROFILE_LOCATION = intl.formatMessage({
+  id: 'contribDist.developerInfoTable.githubProfile.location',
+});
+const GHPROFILE_COUNTRY = intl.formatMessage({
+  id: 'contribDist.developerInfoTable.githubProfile.countryOrRegion',
+});
+
 const DEVELOPER_INFO_COLS = [
   {
     title: intl.formatMessage({ id: 'contribDist.developerInfoTable.colname.owner' }),
@@ -70,34 +95,6 @@ const DEVELOPER_INFO_COLS = [
     },
   },
 ];
-const GHPROFILE_COMPANY = intl.formatMessage({
-  id: 'contribDist.developerInfoTable.githubProfile.company',
-});
-const GHPROFILE_LOCATION = intl.formatMessage({
-  id: 'contribDist.developerInfoTable.githubProfile.location',
-});
-const GHPROFILE_COUNTRY = intl.formatMessage({
-  id: 'contribDist.developerInfoTable.githubProfile.countryOrRegion',
-});
-
-class ActivityRadar extends React.Component<any, any> {
-  constructor(props) {
-    super(props);
-    const { radarData } = this.props;
-  }
-  render() {
-    return (
-      <Radar
-        animation={false}
-        data={this.props.radarData || []}
-        height={this.props.height || 225}
-        xField={'name'}
-        yField={'value'}
-        yAxis={{ max: 100, min: 0 }}
-      />
-    );
-  }
-}
 
 export class DeveloperInfoTable extends React.Component<any, any> {
   render() {

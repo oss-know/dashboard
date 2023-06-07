@@ -1,6 +1,6 @@
 import React, { createRef } from 'react';
 import { Line } from '@ant-design/plots';
-import { exportComponentAsJPEG } from 'react-component-export-image';
+// import { exportComponentAsJPEG } from 'react-component-export-image';
 const config = {
   xField: 'time_point',
   yField: 'criticality_score',
@@ -48,6 +48,7 @@ const config = {
 
 const OWNER_REPO_CACHE = {};
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 class StatefulLineChart extends React.Component<any, any> {
   constructor(props) {
     super(props);
@@ -55,9 +56,7 @@ class StatefulLineChart extends React.Component<any, any> {
     this.lineRef = createRef();
   }
 
-  componentDidUpdate(prevProps: Readonly<any>, prevState: Readonly<any>, snapshot?: any) {
-    // console.log('prev props:', prevProps.owner, prevProps.repo);
-    // console.log('current props:', this.props.owner, this.props.repo);
+  componentDidUpdate(prevProps: Readonly<any>) {
     const { prevOnwer, prevRepo } = prevProps;
     const { owner, repo } = this.props;
 
@@ -68,8 +67,6 @@ class StatefulLineChart extends React.Component<any, any> {
       repo != undefined &&
       !OWNER_REPO_CACHE.hasOwnProperty(`${owner}/${repo}`)
     ) {
-      console.log(prevOnwer, prevRepo, 'update to ', owner, repo);
-      console.log(this.lineRef);
       OWNER_REPO_CACHE[`${owner}/${repo}`] = true;
       const lineChart = this.lineRef.current.getChart();
       lineChart.downloadImage(`${owner}___${repo}.jpg`, 'jpg');
@@ -90,7 +87,6 @@ class StatefulLineChart extends React.Component<any, any> {
         }}
         data={this.props.data}
         {...config}
-        // onReady={this.onLineReady}
       />
     );
   }

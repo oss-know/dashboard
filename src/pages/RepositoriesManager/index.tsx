@@ -29,7 +29,7 @@ const IS_GIT_URL_REGEX =
 
 const intl = getIntl();
 
-const REPO_DOWNLOADING = 1;
+// const REPO_DOWNLOADING = 1;
 const REPO_DOWNLOADED = 2;
 const MAX_DOWNLOADS_TO_SHOW = 100;
 
@@ -108,7 +108,7 @@ export default class RepositoriesManager extends React.Component<any, any> {
         const numPRs = result.data[0][0];
         this.setState({ numPRs });
       })
-      .catch((err) => {
+      .catch(() => {
         this.setState({ numPRs: 0 });
       });
 
@@ -157,7 +157,7 @@ export default class RepositoriesManager extends React.Component<any, any> {
     }
 
     addRepository(repoUrl)
-      .then((result) => {
+      .then(() => {
         this.setState({ searchInput: '' });
         notification.info({
           message: intl.formatMessage({ id: 'repositoriesManager.repoAdded' }),
@@ -372,7 +372,7 @@ export default class RepositoriesManager extends React.Component<any, any> {
                       percent={parseInt(progress)}
                       type={'circle'}
                       width={40}
-                     />
+                    />
                   </Col>
                 </Row>
               </Card>

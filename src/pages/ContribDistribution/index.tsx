@@ -4,12 +4,8 @@ import SecondaryDirSelector from '@/pages/ContribDistribution/SecondaryDirSelect
 import { runSql } from '@/services/clickhouse';
 import OwnerRepoSelector from '@/pages/ContribDistribution/OwnerRepoSelector';
 import { PageContainer } from '@ant-design/pro-layout';
-import { Col, Row, Spin, Input, Space, Button, Checkbox, Tooltip } from 'antd';
+import { Checkbox, Col, DatePicker, Input, Row, Space, Spin, Tooltip } from 'antd';
 import EventProxy from '@dking/event-proxy';
-import { DatePicker } from 'antd';
-
-const { RangePicker } = DatePicker;
-
 import {
   alteredFileCountDomainDistInSecondaryDirSql,
   alteredFileCountRegionDistInSecondaryDirSql,
@@ -34,6 +30,8 @@ import { CriticalityScoreChart } from '@/pages/ContribDistribution/CriticalitySc
 import moment from 'moment';
 import { getIntl } from 'umi';
 import type { CheckboxChangeEvent } from 'antd/es/checkbox';
+
+const { RangePicker } = DatePicker;
 
 const intl = getIntl();
 const MAX_DOMAIN_LEGENDS = 10;
@@ -272,7 +270,7 @@ export default class ContribDistribution extends React.Component<any, any> {
     );
   }
 
-  onDirSelect(selectedDirs, event) {
+  onDirSelect(selectedDirs) {
     this.setState({
       // Since secondaryDirsTableData will be update, don't change the state too frequently
       // Or the web page will have great performance side effect
@@ -485,8 +483,8 @@ export default class ContribDistribution extends React.Component<any, any> {
       const profileData = result.data[0];
       profile = parseGithubProfile(profileData);
 
-      runSql(developerActivitySql(owner, repo, profile.login)).then((result) => {
-        if (!result.data.length) {
+      runSql(developerActivitySql(owner, repo, profile.login)).then((daResult) => {
+        if (!daResult.data.length) {
           ep.emit('developerActivityReady', undefined);
           return;
         }
@@ -501,7 +499,7 @@ export default class ContribDistribution extends React.Component<any, any> {
         ].forEach((key, keyIndex) => {
           activityData.push({
             name: key,
-            value: result.data[0][4 + keyIndex],
+            value: daResult.data[0][4 + keyIndex],
           });
         });
         ep.emit('developerActivityReady', activityData);

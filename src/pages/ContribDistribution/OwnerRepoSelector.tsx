@@ -1,4 +1,4 @@
-import React, { createRef } from 'react';
+import React from 'react';
 
 import { Select } from 'antd';
 import { runSql } from '@/services/clickhouse';

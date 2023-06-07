@@ -63,11 +63,6 @@ function activityToRadarData(activity: CKData.Activity): object[] {
 }
 
 export default class ActivityRadar extends React.Component<any, any> {
-  constructor(props) {
-    super(props);
-    // this.state = { data: props.data ? props.data : [] };
-  }
-
   render() {
     let radarData: object[] = [];
     if (this.props.data) {
