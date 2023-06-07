@@ -27,11 +27,11 @@ const DEVELOPER_INFO_COLS = [
       }
       return (
         <div>
-          <a href={profile.htmlUrl} target={'_blank'}>
+          <a href={profile.htmlUrl} target={'_blank'} rel="noreferrer">
             <img src={profile.avatarUrl} width={100} height={100} />
           </a>
           <div>{profile.name != '' ? profile.name : profile.login}</div>
-          <a href={profile.htmlUrl} target={'_blank'}>
+          <a href={profile.htmlUrl} target={'_blank'} rel="noreferrer">
             @{profile.login}
           </a>
           <div>{profile.company != '' ? `${GHPROFILE_COMPANY}: ${profile.company}` : ''}</div>
@@ -66,7 +66,7 @@ const DEVELOPER_INFO_COLS = [
       if (cellData.activity) {
         return <ActivityRadar radarData={cellData.activity} />;
       }
-      return <div></div>;
+      return <div />;
     },
   },
 ];

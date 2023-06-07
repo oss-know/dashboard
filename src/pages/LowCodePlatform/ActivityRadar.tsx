@@ -2,8 +2,8 @@ import { Radar } from '@ant-design/plots';
 import React from 'react';
 
 export function parseActivities(rawActivities: CKData.Activity[]) {
-  let maxs: object = {};
-  let mins: object = {};
+  const maxs: object = {};
+  const mins: object = {};
 
   rawActivities.forEach((act) => {
     [

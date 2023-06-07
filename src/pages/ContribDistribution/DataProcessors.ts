@@ -65,7 +65,7 @@ function _githubProfileLocation(rawSQLResult: object) {
   } = rawSQLResult;
 
   // Remove the empty location items and concatenate them together
-  let locationItems = [
+  const locationItems = [
     continent,
     administrative_area_level_1,
     administrative_area_level_2,
@@ -109,10 +109,10 @@ export function pathsToTree(paths) {
       // console.log("nodeParent:",nodeParent)
       // console.log("treeIndex[nodeParent]:",treeIndex[nodeParent])
       // treeIndex[nodeParent] =
-      if (treeIndex[nodeParent]['children'] === undefined) {
-        treeIndex[nodeParent]['children'] = [];
+      if (treeIndex[nodeParent].children === undefined) {
+        treeIndex[nodeParent].children = [];
       }
-      treeIndex[nodeParent]['children'].push(nodeItem);
+      treeIndex[nodeParent].children.push(nodeItem);
     }
 
     //     if (treeIndex[nodeParent]["children"] === undefined) {
@@ -122,7 +122,7 @@ export function pathsToTree(paths) {
     // }
   });
   const ary = [];
-  for (let key in dataTree) {
+  for (const key in dataTree) {
     ary.push(dataTree[key]);
   }
   return ary;
