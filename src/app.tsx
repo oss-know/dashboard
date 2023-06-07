@@ -69,11 +69,11 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
     },
     links: isDev
       ? [
-          <Link to="/umi/plugin/openapi" target="_blank">
+          <Link to="/umi/plugin/openapi" target="_blank" key="openapi_doc">
             <LinkOutlined />
             <span>OpenAPI 文档</span>
           </Link>,
-          <Link to="/~docs">
+          <Link to="/~docs" key="components_docs">
             <BookOutlined />
             <span>业务组件文档</span>
           </Link>,

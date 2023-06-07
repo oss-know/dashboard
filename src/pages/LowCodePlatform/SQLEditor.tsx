@@ -25,7 +25,7 @@ export default class SQLEditor extends React.Component<any, any> {
     }
   }
 
-  handleEditorChange(value, event) {
+  handleEditorChange(value) {
     this.setState({ sql: value });
   }
 

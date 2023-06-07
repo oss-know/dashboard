@@ -4,12 +4,12 @@ import { Line } from '@ant-design/plots';
 import { runSql } from '@/services/clickhouse';
 import { getIntl } from 'umi';
 import { WaterMark } from '@ant-design/pro-layout';
-import {
-  exportComponentAsJPEG,
-  exportComponentAsPDF,
-  exportComponentAsPNG,
-} from 'react-component-export-image';
-import { StatefulLineChart } from '@/pages/CriticalityScoreDownload/StatefulLineChart';
+// import {
+//   exportComponentAsJPEG,
+//   exportComponentAsPDF,
+//   exportComponentAsPNG,
+// } from 'react-component-export-image';
+// import { StatefulLineChart } from '@/pages/CriticalityScoreDownload/StatefulLineChart';
 
 const intl = getIntl();
 

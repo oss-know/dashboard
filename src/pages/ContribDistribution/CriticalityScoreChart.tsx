@@ -1,8 +1,9 @@
 import React from 'react';
-import { Line, G2 } from '@ant-design/plots';
+import { Line } from '@ant-design/plots';
 import { Divider } from 'antd';
 
 import { getIntl } from 'umi';
+
 const intl = getIntl();
 
 const config = {
@@ -54,6 +55,7 @@ const config = {
     },
   ],
 };
+
 export class CriticalityScoreChart extends React.Component<any, any> {
   render() {
     return (
