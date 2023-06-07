@@ -343,7 +343,7 @@ export default class RepositoriesManager extends React.Component<any, any> {
             if (jobStatus === 'queued') {
               return (
                 <Col key={`downloading__repo__col__${owner}___${repo}`} span={4}>
-                  <a href={repoUrl} target={'_blank'}>
+                  <a href={repoUrl} target={'_blank'} rel="noreferrer">
                     <Card
                       style={{ height: 90, background: color, borderColor: 'rgb(60,108,60)' }}
                       hoverable
@@ -372,7 +372,7 @@ export default class RepositoriesManager extends React.Component<any, any> {
                       percent={parseInt(progress)}
                       type={'circle'}
                       width={40}
-                    ></Progress>
+                     />
                   </Col>
                 </Row>
               </Card>
@@ -393,7 +393,7 @@ export default class RepositoriesManager extends React.Component<any, any> {
               );
             } else {
               ret = (
-                <a href={repoUrl} target={'_blank'}>
+                <a href={repoUrl} target={'_blank'} rel="noreferrer">
                   {progressCard}
                 </a>
               );

@@ -581,7 +581,7 @@ export function commitsRegionDistSql(
   include,
   caseSensitive,
 ) {
-  let dateRangeClause =
+  const dateRangeClause =
     since && until
       ? `and authored_date>'${since}'
     and authored_date<'${until}'`
@@ -693,13 +693,13 @@ export function commitsRegionDissSql_ByProfile(
   include,
   caseSensitive,
 ) {
-  let gitsDateRangeClause =
+  const gitsDateRangeClause =
     since && until
       ? `and authored_date>'${since}'
     and authored_date<'${until}'`
       : '';
 
-  let githubCommitsDateRangeClause =
+  const githubCommitsDateRangeClause =
     since && until
       ? `and commit__author__date>'${since}'
     and commit__author__date<'${until}'`
@@ -866,7 +866,7 @@ export function commitsEmailDomainDistSql(
   include,
   caseSensitive,
 ) {
-  let dateRangeClause =
+  const dateRangeClause =
     since && until
       ? `and authored_date>'${since}'
     and authored_date<'${until}'`
@@ -934,12 +934,12 @@ export function alteredFileCountRegionDistInSecondaryDirSql(
   // - developerCountDomainDistInSecondaryDirSql
 
   // TODO Should we use <= and >= instead of < and > ?
-  let dateRangeClause =
+  const dateRangeClause =
     since && until
       ? `and authored_date>${dateToYearMonthInt(since)}
     and authored_date<${dateToYearMonthInt(until)}`
       : '';
-  let msgFilterClause = commitMsgFilter ? `and lowerUTF8(message) like '%${commitMsgFilter}%'` : '';
+  const msgFilterClause = commitMsgFilter ? `and lowerUTF8(message) like '%${commitMsgFilter}%'` : '';
 
   return `
   select sum(alter_file_count) as count, area from gits_alter_file_times
@@ -1199,12 +1199,12 @@ export function developerCountRegionDistInSecondaryDirSql(
   until,
   commitMsgFilter,
 ) {
-  let dateRangeClause =
+  const dateRangeClause =
     since && until
       ? `and toYYYYMM(authored_date)>${dateToYearMonthInt(since)}
     and toYYYYMM(authored_date)<${dateToYearMonthInt(until)}`
       : '';
-  let msgFilterClause = commitMsgFilter ? `and lowerUTF8(message) like '%${commitMsgFilter}%'` : '';
+  const msgFilterClause = commitMsgFilter ? `and lowerUTF8(message) like '%${commitMsgFilter}%'` : '';
 
   // TODO Replace it with malin's new SQL
   return `
@@ -1656,12 +1656,12 @@ export function alteredFileCountDomainDistInSecondaryDirSql(
   until,
   commitMsgFilter,
 ) {
-  let dateRangeClause =
+  const dateRangeClause =
     since && until
       ? `and authored_date>${dateToYearMonthInt(since)}
     and authored_date<${dateToYearMonthInt(until)}`
       : '';
-  let msgFilterClause = commitMsgFilter ? `and lowerUTF8(message) like '%${commitMsgFilter}%'` : '';
+  const msgFilterClause = commitMsgFilter ? `and lowerUTF8(message) like '%${commitMsgFilter}%'` : '';
   return `
   select sum(alter_file_count) as count, email_domain from gits_dir_email_domain_alter_file_count
 where search_key__owner='${owner}'
@@ -1713,12 +1713,12 @@ export function developerCountDomainDistInSecondaryDirSql(
   until,
   commitMsgFilter,
 ) {
-  let dateRangeClause =
+  const dateRangeClause =
     since && until
       ? `and toYYYYMM(authored_date)>${dateToYearMonthInt(since)}
     and toYYYYMM(authored_date)<${dateToYearMonthInt(until)}`
       : '';
-  let msgFilterClause = commitMsgFilter ? `and lowerUTF8(message) like '%${commitMsgFilter}%'` : '';
+  const msgFilterClause = commitMsgFilter ? `and lowerUTF8(message) like '%${commitMsgFilter}%'` : '';
   // TODO Replace it with malin's new SQL
   return `
 select search_key__owner, search_key__repo,
@@ -1798,12 +1798,12 @@ export function developersContribInSecondaryDirSql(
   until,
   commitMsgFilter,
 ) {
-  let dateRangeClause =
+  const dateRangeClause =
     since && until
       ? `and authored_date>'${since}'
     and authored_date<'${until}'`
       : '';
-  let msgFilterClause = commitMsgFilter ? `and lowerUTF8(message) like '%${commitMsgFilter}%'` : '';
+  const msgFilterClause = commitMsgFilter ? `and lowerUTF8(message) like '%${commitMsgFilter}%'` : '';
 
   return `
   select in_dir, author_email, alter_files_count, tz_distribution

@@ -1,4 +1,5 @@
-import React, { BaseSyntheticEvent, createRef, RefObject } from 'react';
+import type { BaseSyntheticEvent, RefObject } from 'react';
+import React, { createRef } from 'react';
 import SecondaryDirSelector from '@/pages/ContribDistribution/SecondaryDirSelector';
 import { runSql } from '@/services/clickhouse';
 import OwnerRepoSelector from '@/pages/ContribDistribution/OwnerRepoSelector';
@@ -32,7 +33,7 @@ import { parseGithubProfile, pathsToTree } from '@/pages/ContribDistribution/Dat
 import { CriticalityScoreChart } from '@/pages/ContribDistribution/CriticalityScoreChart';
 import moment from 'moment';
 import { getIntl } from 'umi';
-import { CheckboxChangeEvent } from 'antd/es/checkbox';
+import type { CheckboxChangeEvent } from 'antd/es/checkbox';
 
 const intl = getIntl();
 const MAX_DOMAIN_LEGENDS = 10;

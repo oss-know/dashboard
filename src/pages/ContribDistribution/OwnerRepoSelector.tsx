@@ -29,15 +29,15 @@ export default class OwnerRepoSelector extends React.Component<any, any> {
     const result = await runSql(UNIQ_OWNER_REPO_SQL);
     const ownerRepoMap: object = {};
     result.data.forEach((pair: any) => {
-      let owner = pair[0][0];
-      let repo = pair[0][1];
+      const owner = pair[0][0];
+      const repo = pair[0][1];
       if (ownerRepoMap.hasOwnProperty(owner)) {
         ownerRepoMap[owner].push(repo);
       } else {
         ownerRepoMap[owner] = [repo];
       }
     });
-    let owners: string[] = Object.keys(ownerRepoMap).map((owner) => ({ value: owner }));
+    const owners: string[] = Object.keys(ownerRepoMap).map((owner) => ({ value: owner }));
 
     this.setState({ ownerRepoMap, owners });
   }
