@@ -30,6 +30,16 @@
     icon: 'Github',
     component: './RepositoriesManager',
   },
+
+  {
+    path: '/networkmetrics',
+    name: 'networkmetrics',
+    component: './NetworkMetrics/index.tsx',
+  },
+  {
+    path: '/networkmetric/:metricName/:owner/:repo',
+    component: '@/pages/NetworkMetrics/ShowMetric/index.tsx',
+  },
   {
     path: '/contrib_distribution',
     name: 'contribDist',
