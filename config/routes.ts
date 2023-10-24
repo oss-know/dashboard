@@ -30,7 +30,16 @@
     icon: 'Github',
     component: './RepositoriesManager',
   },
-
+  {
+    path: '/privilege_events',
+    name: 'privilege_events',
+    component: './PrivilegeEvents/index.tsx'
+  },
+  {
+    path: '/developer_events',
+    name: 'developer_events',
+    component: './DeveloperMetrics/index.tsx'
+  },
   {
     path: '/networkmetrics',
     name: 'networkmetrics',
